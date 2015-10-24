@@ -1,0 +1,26 @@
+{% extends 'layout.html'%}
+{% from 'macros.html' import render_field %}
+
+
+
+
+
+
+{% block buy_sell %}
+<h1>What are you here for?</h1>
+<!-- dont show this until the user has logged in -->
+<div id='buttons-container'>
+  <div class='buy-home'>
+
+    <a href="{{url_for('buy', username = current_user.username) }}">Buy Space!</a>
+
+      <div id='register-buy-home-page'>Register</div>
+      <div id='login-buy-home-page'>Login</div>
+  </div>
+  <div class="sell-home">
+    <a href="{{url_for('sell', username=current_user.username)}}">Sell Space!</a>
+      <div id='register-sell-home-page'>Register</div>
+      <div id='register-sell-home-page'>Login</div>
+  </div>
+</div>
+{%endblock%}

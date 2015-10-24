@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import render_field %}
+
+{%block content%}
+<link rel="stylesheet" href="/static/css/single_listing_stuff.css">
+<div class='container-marketplace' id="{{listing.id}}">
+  <!-- <img> picture of the space -->
+
+  <h2>Rentable Space {{listing.cubic_feet_avail}} Ft^3</h2>
+  <h1>${{listing.ask}}</h1>
+  <p>About the Space: {{listing.what_user_is_offering}}</p>
+  <h2>
+    Sellers Rating: {{listing.user}}
+  </h2>
+  <h4>Recent seller reviews</h4>
+  {#for review in bout_seller.reviews#}
+  <!-- Limit reviews to 3 -->
+  <h2>{{listing.user.review1}}</h2>
+  
+
+  <h1>Coming soon</h1>
+  {#endfor#}
+  <form action='/marketplace/{{listing.id}}/charge' method="post">
+  <buton class="button-success" id="purchase">Purchase this space!</button>
+
+
+
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+
+    <script>
+
+    Stripe.setPublishableKey('pk_test_1fRtlKp9bekhlusVVMKIo1Nc');
+
+
+    var handler = StripeCheckout.configure({
+      key: "pk_test_1fRtlKp9bekhlusVVMKIo1Nc",
+      image: 'https://i21.geccdn.net/site/images/n-picgroup/2053.jpg',
+      locale: 'auto',
+      token: function(token, args) {
+        // Use the token to create the charge with a server-side script.
+        // You can access the token ID with `token.id`
+
+        //what the shit
+        //ok lets walk through this
+
+        // Setting the input to the input that stipe creates
+        var $input = $("<input type=hidden name=stripeToken />");
+        // sets the value of that inout to the token.id token is a huuuugeee object
+        $input = $input.val(token.id);
+        //appends the only form on the page with the new token thingy in the input
+        $('form').append($input).submit();
+
+
+
+      }
+    });
+
+    $('#purchase').on('click', function(e) {
+      // Open Checkout with further options
+      handler.open({
+        name: 'storrage.io',
+        description: 'Buy storage from {{listing.username}}',
+        amount: {{listing.ask*100}}
+      });
+      e.preventDefault();
+    });
+
+    // Close Checkout on page navigation
+    $(window).on('popstate', function() {
+      handler.close();
+    });
+
+    </script>
+
+
+
+  </form>
+
+
+</div>
+
+<!--
+Simple Button, Maybe this but i might want a custom
+
+<form action="" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_1fRtlKp9bekhlusVVMKIo1Nc"
+    data-amount="2000"
+    data-name="Demo Site"
+    data-description="2 widgets ($20.00)"
+    data-image="/128x128.png"
+    data-locale="auto">
+  </script>
+</form> -->
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

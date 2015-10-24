@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import render_field %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+
+<form method='POST' action='' class='pure-form'>
+      {{ form.hidden_tag() }}
+      <legend><strong>Buy space from a neighbor</strong></legend>
+      <!-- default is all stacked -->
+      <!-- <div class="pure-g"> -->
+        <!-- put al the code below into this -->
+      <!-- </div> -->
+
+<div class="pure-g">
+      {% for supple in form2 if supple.id !='csrf_token'%}
+
+
+      <div class="pure-u-1-4">
+            {{render_field(supple)}}
+          </div>
+      {% endfor %}
+      {% for field in form if field.id != 'csrf_token' %}
+
+
+
+      <!-- create ids for the fields -->
+      {%if field.name.text == container_choice %}
+        </div>
+        <div class='pure-u-2-4'>
+      {%endif%}
+
+
+      <label for="{{field.name}}">{{field.label.text}}</label>
+
+      <!-- <label>{{field.label}}</label> -->
+
+        {{render_field(field)}}
+
+        {%if field.name.text == container_choice %}
+      </div>
+      {%endif%}
+
+      {% endfor %}
+
+      <button type='submit' id='submit'>Search!</button>
+</form>
+
+
+{% endblock %}

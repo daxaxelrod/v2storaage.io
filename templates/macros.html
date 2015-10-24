@@ -1,0 +1,22 @@
+{% macro render_field(field) %}
+    <div class="field">
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="notification error">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+
+
+        {{ field(placeholder=field.label.text) }}
+    </div>
+{% endmacro %}
+
+
+<!-- this needs a lot more work -->
+<!-- 2 parts, supply demand model itself and then accessing the
+price specifically and altering it by whatever the price ends up being -->
+{% macro apply_market_price() %}
+  {% for listing in posts %}
+      <div>{{listing.ask}}<div>
+  {% endfor %}
+{% endmacro %}

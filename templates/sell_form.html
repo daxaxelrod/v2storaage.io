@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+
+
+<form method='POST' action='' class='pure-form'>
+      {{ form.hidden_tag() }}
+      {% for field in form if field != 'csrf_token' %}
+
+      <div class="field">
+          {% if field.errors %}
+              {% for error in field.errors %}
+                  <div class="notification error">{{ error }}</div>
+              {% endfor %}
+          {% endif %}
+          <!-- create ids for the fields -->
+
+          <label for="{{field.name}}">{{field.label.text}}</label>
+          <!-- maybe do an if the field is a deicmal field, add a dollar sign in front -->
+           {%if field.id != 'fileUploader' %} <!-- #should rerender fields based on revised sell form -->
+          {{ field(placeholder=field.label.text) }}
+
+          {%endif%}
+      </div>
+
+      {% endfor %}
+      <button type='submit' id='submit'>Post your listing!</button>
+</form>
+<!-- put this into a macro sometime soon -->
+
+{% endblock %}
